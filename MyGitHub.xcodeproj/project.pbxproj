@@ -18,7 +18,7 @@
 		22B4588F289F02070075A980 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4588E289F02070075A980 /* Constants.swift */; };
 		22FF2751289E2714002DA644 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FF2750289E2714002DA644 /* AppDelegate.swift */; };
 		22FF2753289E2714002DA644 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FF2752289E2714002DA644 /* SceneDelegate.swift */; };
-		22FF2755289E2714002DA644 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FF2754289E2714002DA644 /* ViewController.swift */; };
+		22FF2755289E2714002DA644 /* GitPRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FF2754289E2714002DA644 /* GitPRViewController.swift */; };
 		22FF2758289E2714002DA644 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22FF2756289E2714002DA644 /* Main.storyboard */; };
 		22FF275A289E2715002DA644 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22FF2759289E2715002DA644 /* Assets.xcassets */; };
 		22FF275D289E2715002DA644 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22FF275B289E2715002DA644 /* LaunchScreen.storyboard */; };
@@ -42,7 +42,7 @@
 		22FF274D289E2714002DA644 /* MyGitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyGitHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22FF2750289E2714002DA644 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22FF2752289E2714002DA644 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		22FF2754289E2714002DA644 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		22FF2754289E2714002DA644 /* GitPRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitPRViewController.swift; sourceTree = "<group>"; };
 		22FF2757289E2714002DA644 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		22FF2759289E2715002DA644 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		22FF275C289E2715002DA644 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -69,13 +69,20 @@
 		22090095289E5FD5002EC289 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				22FF2766289E2886002DA644 /* GitPRAPIClient.swift */,
 				22B4588E289F02070075A980 /* Constants.swift */,
 				22B45882289EA3F90075A980 /* APIError.swift */,
 				22090096289E5FEC002EC289 /* GitFormatters.swift */,
 				22B45884289EA7A50075A980 /* UIView+extensions.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		220A809728A02FB20052952D /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				22FF2766289E2886002DA644 /* GitPRAPIClient.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		22B45888289EFEB80075A980 /* Model */ = {
@@ -90,7 +97,7 @@
 		22B45889289EFEC40075A980 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				22FF2754289E2714002DA644 /* ViewController.swift */,
+				22FF2754289E2714002DA644 /* GitPRViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -106,6 +113,7 @@
 		22B4588B289EFF2D0075A980 /* GitPullRequest */ = {
 			isa = PBXGroup;
 			children = (
+				220A809728A02FB20052952D /* Networking */,
 				22B4588C289F00790075A980 /* Cell */,
 				22B4588A289EFED90075A980 /* Views */,
 				22B45888289EFEB80075A980 /* Model */,
@@ -298,7 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22FF2755289E2714002DA644 /* ViewController.swift in Sources */,
+				22FF2755289E2714002DA644 /* GitPRViewController.swift in Sources */,
 				22FF2767289E2886002DA644 /* GitPRAPIClient.swift in Sources */,
 				22FF2751289E2714002DA644 /* AppDelegate.swift in Sources */,
 				22090099289E7A34002EC289 /* GitUserModel.swift in Sources */,

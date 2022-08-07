@@ -10,8 +10,8 @@ import Foundation
 class Constants {
     static let APIBaseURL: String = "https://api.github.com"
 
-    struct Paths {
-        static let pullRequestPath = "/repos/johnsundell/ShellOut/pulls"
-        static let userProfilePath = "/users/johnsundell"
+    struct URLPaths {
+        static let pullRequestPath = "/repos/svaibhav807/GitHubPRDemo/pulls"
+        static let userProfilePath = "/users/svaibhav807"
     }
 }

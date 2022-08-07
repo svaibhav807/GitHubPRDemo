@@ -16,7 +16,7 @@ extension APIError: CustomStringConvertible {
     var description: String {
         switch self {
         case .requestFailed:
-            return "Network Error, Please try again"
+            return "Something went wrong, Please try again"
         case .invalidData:
             return "Something went wrong, Please try again"
         }

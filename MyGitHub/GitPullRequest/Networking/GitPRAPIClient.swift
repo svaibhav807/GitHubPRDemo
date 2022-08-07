@@ -21,7 +21,7 @@ class GitPRAPIClient {
     var hasNextPage = true
 
     func fetchPRs(state: PRState,completion: @escaping (Result<[GitPRModel], APIError>) -> Void) {
-        let completeURL = Constants.APIBaseURL + Constants.Paths.pullRequestPath
+        let completeURL = Constants.APIBaseURL + Constants.URLPaths.pullRequestPath
         var parameters: [String: String] = [:]
         parameters["state"] = state.rawValue
         parameters["page"] = String(pageToFetch)
@@ -29,8 +29,15 @@ class GitPRAPIClient {
         let request = AF.request(completeURL, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default)
 
         request.responseDecodable(of: [GitPRModel].self) { (response) in
-            if let _ = response.error {
-                completion(.failure(.requestFailed))
+            if let error = response.error {
+                switch error {
+                case .createURLRequestFailed(_), .sessionTaskFailed(_):
+                    completion(.failure(.requestFailed))
+                case .invalidURL(_), .responseValidationFailed(_):
+                    completion(.failure(.invalidData))
+                default:
+                    completion(.failure(.requestFailed))
+                }
                 return
             }
             guard let items = response.value else { return }
@@ -39,11 +46,21 @@ class GitPRAPIClient {
     }
 
     func fetchUser(completion: @escaping (Result<GitUserModel, APIError>) -> Void) {
-        let completeURL = Constants.APIBaseURL + Constants.Paths.userProfilePath
+        let completeURL = Constants.APIBaseURL + Constants.URLPaths.userProfilePath
         let request = AF.request(completeURL)
 
         request.responseDecodable(of: GitUserModel.self) { (response) in
-            if let _ = response.error { completion(.failure(.requestFailed)) }
+            if let error = response.error {
+                switch error {
+                case .createURLRequestFailed(_), .sessionTaskFailed(_):
+                    completion(.failure(.requestFailed))
+                case .invalidURL(_), .responseValidationFailed(_):
+                    completion(.failure(.invalidData))
+                default:
+                    completion(.failure(.requestFailed))
+                }
+                return
+            }
             guard let item = response.value else { return }
             completion(.success(item))
         }
