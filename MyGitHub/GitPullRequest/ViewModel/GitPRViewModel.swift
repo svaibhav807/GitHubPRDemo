@@ -19,15 +19,17 @@ protocol GitPRViewModelDelegate: AnyObject {
 }
 
 final class GitPRViewModel: NSObject {
-    var userName: String? = nil
-
-    private var prDetailModel: [GitPRModel] = []
-    var gitUserModel: GitUserModel? = nil
-
-    var collectionView: UICollectionView?
-    private var cellViewModels: [GitPRCellViewModel] = []
+    // weak
     weak var delegate: GitPRViewModelDelegate?
 
+    var userName: String? = nil
+    var gitUserModel: GitUserModel? = nil
+    var collectionView: UICollectionView?
+
+    // private
+    private var cellViewModels: [GitPRCellViewModel] = []
+    private var prDetailModel: [GitPRModel] = []
+    private let networkClient: GitPRAPIClient
     private var numberOfItems: Int {
         return  cellViewModels.count
     }
@@ -40,56 +42,51 @@ final class GitPRViewModel: NSObject {
     }
 
     override init() {
+        networkClient = GitPRAPIClient()
         super.init()
         fetchPRs()
         fetchUser()
     }
+}
 
+// MARK: Networking
+extension GitPRViewModel {
     func fetchPRs(showLoadingIndicator: Bool = true) {
         if showLoadingIndicator {
             delegate?.showLoadingIndicator()
         }
-        let completeURL = Constants.APIBaseURL + Constants.Paths.pullRequestPath
-        var parameters: [String: String] = [:]
-        parameters["state"] = "open"
-        let request = AF.request("https://api.github.com/repos/johnsundell/ShellOut/pulls?state=closed", parameters: parameters, encoder: URLEncodedFormParameterEncoder.default) { request in
-
-        }
-        request.responseDecodable(of: [GitPRModel].self) { [weak self] (response) in
+        networkClient.fetchPRs(state: .closed) { [weak self] (result) in
             if showLoadingIndicator {
                 self?.delegate?.removeLoadingIndicator()
             }
-            if let error = response.error {
+
+            switch result {
+            case.failure(_):
                 self?.delegate?.showErrorView(with: .requestFailed)
                 self?.delegate?.reloadCollectionView()
-
                 return
+            case .success(let items):
+                self?.prDetailModel.append(contentsOf: items)
+                self?.cellViewModels = []
+                for item in items {
+                    let cvm = GitPRCellViewModel(item: item)
+                    self?.cellViewModels.append(cvm)
+                }
+                self?.delegate?.reloadCollectionView()
+                self?.collectionView?.reloadData()
             }
-
-            guard let items = response.value else { return }
-            self?.prDetailModel.append(contentsOf: items)
-            self?.cellViewModels = []
-            //            for _ in 0...5 {
-            for item in items {
-                let cvm = GitPRCellViewModel(item: item)
-                print(item.closedDate,"10101")
-                self?.cellViewModels.append(cvm)
-            }
-            //            }
-            self?.delegate?.reloadCollectionView()
-            self?.collectionView?.reloadData()
         }
     }
 
     func fetchUser() {
-        let completeURL = Constants.APIBaseURL + Constants.Paths.userProfilePath
-        let request = AF.request(completeURL)
-
-        request.responseDecodable(of: GitUserModel.self) { [weak self] (response) in
-            guard let item = response.value else { return }
-            self?.gitUserModel = item
-            print(item)
-            self?.delegate?.loadUserData()
+        networkClient.fetchUser() {  [weak self] (result) in
+            switch result {
+            case .success(let model):
+                self?.gitUserModel = model
+                self?.delegate?.loadUserData()
+            case .failure(_):
+                print("Profle API failed.")
+            }
         }
     }
 
@@ -99,6 +96,7 @@ final class GitPRViewModel: NSObject {
     }
 }
 
+// MARK: CollectionView
 extension GitPRViewModel {
     func configure(collectionView: UICollectionView) {
         let layout = collectionView.collectionViewLayout as? GitPRCollectionViewFlowLayout
@@ -114,6 +112,7 @@ extension GitPRViewModel {
     }
 }
 
+// MARK: UICollectionViewDataSource
 extension GitPRViewModel: UICollectionViewDataSource  {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cellViewModel = cellViewModel(at: indexPath.row) else {
@@ -129,6 +128,7 @@ extension GitPRViewModel: UICollectionViewDataSource  {
     }
 }
 
+// MARK: UICollectionViewDelegateFlowLayout
 extension GitPRViewModel: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var labelHeight: CGFloat = 0;
