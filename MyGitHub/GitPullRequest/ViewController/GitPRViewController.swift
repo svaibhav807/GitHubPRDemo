@@ -153,7 +153,6 @@ extension GitPRViewController: GitPRViewModelDelegate {
         if let user = viewModel.gitUserModel  {
             let url = URL(string: user.imageURL )
             userImageView.kf.setImage(with: url)
-            userImageView.layer.cornerRadius = userImageView.frame.size.width/2
             self.userTitle.text = user.name
 
             if let location = user.location {
@@ -204,6 +203,7 @@ extension GitPRViewController: GitPRViewModelDelegate {
     }
 }
 
+// Mark: CTAs and Related functions
 extension GitPRViewController {
     @objc
     func handlePullToRefresh() {
