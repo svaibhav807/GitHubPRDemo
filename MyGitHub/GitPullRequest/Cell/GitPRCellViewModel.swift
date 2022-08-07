@@ -22,7 +22,7 @@ final class GitPRCellViewModel {
         self.closedDate = item.closedDate
     }
 
-    func configure(cell: CollectionViewCell) {
+    func configure(cell: GitPRCell) {
         cell.titleLabel.text = title
         if let createdDateString = dateFormatter.string(from: createdDate) {
             cell.createdOnLabel.text = (cell.createdOnLabel.text ?? "") + "\n" + createdDateString
