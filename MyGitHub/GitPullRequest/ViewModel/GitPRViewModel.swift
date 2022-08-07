@@ -66,7 +66,7 @@ extension GitPRViewModel {
                 self?.delegate?.showErrorView(with: .requestFailed)
                 return
             case .success(let items):
-                if(!items.isEmpty) {
+                if(items.isEmpty) {
                     self?.networkClient.hasNextPage = false
                     self?.delegate?.showErrorView(with: .noData)
                     return 
@@ -108,13 +108,10 @@ extension GitPRViewModel {
 
     private func fetchUser() {
         networkClient.fetchUser() {  [weak self] (result) in
-            switch result {
-            case .success(let model):
+            if case .success(let model) = result {
                 self?.gitUserModel = model
-                self?.delegate?.loadUserData()
-            case .failure(_):
-                print("Profle API failed.")
             }
+            self?.delegate?.loadUserData()
         }
     }
 
