@@ -19,5 +19,5 @@ What isnt in this PR yet:
  - Selection of a cell to open a Detail Page for PR. (Est: 2 Hours)
 
 Third parties libraries used: 
-AlamoFire - for networking
-Kingfisher - loading images.
+- AlamoFire - for networking,
+- Kingfisher - loading images.
