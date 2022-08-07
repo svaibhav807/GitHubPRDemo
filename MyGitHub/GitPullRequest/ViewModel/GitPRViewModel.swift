@@ -128,9 +128,12 @@ extension GitPRViewModel {
         let layout = collectionView.collectionViewLayout as? GitPRCollectionViewFlowLayout
         layout?.scrollDirection = .vertical
         layout?.minimumInteritemSpacing = 15
+        layout?.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 150)
+
+        // Register Views
         collectionView.register(GitPRCell.self, forCellWithReuseIdentifier: GitPRCell.identifier)
 
-        layout?.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 150)
+        // Delegates
         collectionView.prefetchDataSource = self
         collectionView.isPrefetchingEnabled = true
         collectionView.dataSource = self
