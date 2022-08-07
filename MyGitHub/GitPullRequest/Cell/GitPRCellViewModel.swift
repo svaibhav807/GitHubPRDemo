@@ -9,10 +9,10 @@ import Foundation
 
 
 final class GitPRCellViewModel {
-    let item: GitPRModel
-    let title: String
-    let createdDate: String
-    let closedDate: String?
+    private let item: GitPRModel
+    private let title: String
+    private let createdDate: String
+    private let closedDate: String?
     private lazy var dateFormatter = GitFormatters.Dates()
 
     init(item: GitPRModel) {
@@ -23,17 +23,19 @@ final class GitPRCellViewModel {
     }
 
     func configure(cell: CollectionViewCell) {
-            cell.titleLabel.text = title
+        cell.titleLabel.text = title
         if let createdDateString = dateFormatter.string(from: createdDate) {
-        cell.createdOnLabel.text = (cell.createdOnLabel.text ?? "") + createdDateString
+            cell.createdOnLabel.text = (cell.createdOnLabel.text ?? "") + "\n" + createdDateString
             cell.createdOnLabel.isHidden = false
         } else {
             cell.createdOnLabel.isHidden = true
         }
-//        let closedDate = closedDate,
-        if  let closedDateString = dateFormatter.string(from: createdDate) {
-            cell.closedOnLabel.isHidden = false
-            cell.closedOnLabel.text = (cell.closedOnLabel.text ?? "") + closedDateString
+        if let closedDate = item.closedDate {
+            if let closedDateString = dateFormatter.string(from: closedDate)  {
+                cell.closedOnLabel.isHidden = false
+                cell.closedOnLabel.text = (cell.closedOnLabel.text ?? "") + "\n" + closedDateString
+            }
+
         } else {
             cell.closedOnLabel.isHidden = true
         }

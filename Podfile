@@ -7,5 +7,6 @@ target 'MyGitHub' do
 
   # Pods for MyGitHub
 pod 'Alamofire'
+pod 'Kingfisher', '~> 7.0'
 
 end

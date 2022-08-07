@@ -10,12 +10,12 @@ import UIKit
 class CollectionViewCell: UICollectionViewCell {
     static let identifier = "reelCell"
 
-
     lazy var titleLabel: UILabel = {
         let l = UILabel()
         l.text = "sample cell"
         l.font = .systemFont(ofSize: 15)
         l.numberOfLines = 0
+
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
@@ -45,7 +45,8 @@ class CollectionViewCell: UICollectionViewCell {
         s.axis = .vertical
         s.translatesAutoresizingMaskIntoConstraints = false
         s.alignment = .fill
-        s.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        s.spacing = 5
+        s.widthAnchor.constraint(equalToConstant: 70).isActive = true
         return s
     }()
 
@@ -53,7 +54,8 @@ class CollectionViewCell: UICollectionViewCell {
         let s = UIStackView()
         s.axis = .horizontal
         s.translatesAutoresizingMaskIntoConstraints = false
-        s.alignment = .fill
+        s.alignment = .center
+        s.spacing = 10
         return s
     }()
 
@@ -69,9 +71,7 @@ class CollectionViewCell: UICollectionViewCell {
 
     func commonInit() {
         self.backgroundColor = .secondarySystemBackground
-        self.layer.cornerRadius = 3
-        self.layer.borderColor = .init(red: 50, green: 50, blue: 50, alpha: 1)
-//        self.layer.borderWidth = 2
+        self.layer.cornerRadius = 5
         contentStackView.addArrangedSubview(titleLabel)
         contentStackView.addArrangedSubview(dateStackView)
         dateStackView.addArrangedSubview(createdOnLabel)
@@ -79,7 +79,13 @@ class CollectionViewCell: UICollectionViewCell {
         self.addSubview(contentStackView)
         self.translatesAutoresizingMaskIntoConstraints = false
 
+        let companyNameTopConstraint = self.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)
+
+        companyNameTopConstraint.priority = .defaultHigh
+
         NSLayoutConstraint.activate([
+            companyNameTopConstraint,
+            titleLabel.widthAnchor.constraint(equalToConstant: 200),
             contentStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10),
             contentStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
             contentStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,  constant: -10),
@@ -89,13 +95,17 @@ class CollectionViewCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        closedOnLabel.text = nil
-        createdOnLabel.text = nil
+        closedOnLabel.text = "Closed: "
+        createdOnLabel.text = "Created: "
     }
 
-//
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//
-//    }
+    func cellHeight() -> CGFloat {
+        return max(100, titleLabel.textHeight())
+    }
+}
+
+extension UILabel {
+    func textHeight(withWidth width: CGFloat = UIScreen.main.bounds.width) -> CGFloat {
+        return self.frame.height
+    }
 }

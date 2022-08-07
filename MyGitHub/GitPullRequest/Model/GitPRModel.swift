@@ -31,7 +31,6 @@ class GitPRModel: Codable {
         case createdDate = "created_at"
         case closedDate = "closed_at"
         case state
-
     }
 }
 
