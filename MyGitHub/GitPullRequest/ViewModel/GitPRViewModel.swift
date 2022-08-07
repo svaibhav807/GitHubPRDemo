@@ -19,20 +19,21 @@ protocol GitPRViewModelDelegate: AnyObject {
 }
 
 final class GitPRViewModel: NSObject {
-    // weak
+    // weak vars
     weak var delegate: GitPRViewModelDelegate?
 
+    // public vars
     var userName: String? = nil
     var gitUserModel: GitUserModel? = nil
     var collectionView: UICollectionView?
 
-    // private
+    // private vars
     private var cellViewModels: [GitPRCellViewModel] = []
     private var prDetailModel: [GitPRModel] = []
-    private let networkClient: GitPRAPIClient
     private var numberOfItems: Int {
         return  cellViewModels.count
     }
+    private let networkClient: GitPRAPIClient
 
     func cellViewModel(at index: Int) -> GitPRCellViewModel? {
         guard cellViewModels.indices.contains(index) else {
@@ -44,14 +45,14 @@ final class GitPRViewModel: NSObject {
     override init() {
         networkClient = GitPRAPIClient()
         super.init()
-        fetchPRs()
+        fetchFirstPage()
         fetchUser()
     }
 }
 
 // MARK: Networking
 extension GitPRViewModel {
-    func fetchPRs(showLoadingIndicator: Bool = true) {
+    func fetchFirstPage(showLoadingIndicator: Bool = true) {
         if showLoadingIndicator {
             delegate?.showLoadingIndicator()
         }
@@ -66,8 +67,32 @@ extension GitPRViewModel {
                 self?.delegate?.reloadCollectionView()
                 return
             case .success(let items):
+                if(items.isEmpty) { self?.networkClient.hasNextPage = false }
+                self?.networkClient.pageToFetch += 1
+
                 self?.prDetailModel.append(contentsOf: items)
                 self?.cellViewModels = []
+                for item in items {
+                    let cvm = GitPRCellViewModel(item: item)
+                    self?.cellViewModels.append(cvm)
+                }
+                self?.delegate?.reloadCollectionView()
+                self?.collectionView?.reloadData()
+            }
+        }
+    }
+
+    func fetchNextPage() {
+        networkClient.fetchPRs(state: .closed) { [weak self] (result) in
+            switch result {
+            case.failure(_):
+                self?.delegate?.reloadCollectionView()
+                return
+            case .success(let items):
+                if(items.isEmpty) { self?.networkClient.hasNextPage = false }
+                self?.networkClient.pageToFetch += 1
+
+                self?.prDetailModel.append(contentsOf: items)
                 for item in items {
                     let cvm = GitPRCellViewModel(item: item)
                     self?.cellViewModels.append(cvm)
@@ -92,7 +117,8 @@ extension GitPRViewModel {
 
     func handlePullToRefresh() {
         prDetailModel = []
-        fetchPRs(showLoadingIndicator: false)
+        networkClient.pageToFetch = 1
+        fetchFirstPage(showLoadingIndicator: false)
     }
 }
 
@@ -102,10 +128,11 @@ extension GitPRViewModel {
         let layout = collectionView.collectionViewLayout as? GitPRCollectionViewFlowLayout
         layout?.scrollDirection = .vertical
         layout?.minimumInteritemSpacing = 15
-        //        layout?.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 100)
-        layout?.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width, height: 100)
-        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.identifier)
+        collectionView.register(GitPRCell.self, forCellWithReuseIdentifier: GitPRCell.identifier)
 
+        layout?.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 150)
+        collectionView.prefetchDataSource = self
+        collectionView.isPrefetchingEnabled = true
         collectionView.dataSource = self
         collectionView.delegate = self
         self.collectionView = collectionView
@@ -118,7 +145,7 @@ extension GitPRViewModel: UICollectionViewDataSource  {
         guard let cellViewModel = cellViewModel(at: indexPath.row) else {
             fatalError("Unknown index passed")
         }
-        let cell: CollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.identifier, for: indexPath) as! CollectionViewCell
+        let cell: GitPRCell = collectionView.dequeueReusableCell(withReuseIdentifier: GitPRCell.identifier, for: indexPath) as! GitPRCell
         cellViewModel.configure(cell: cell)
         return cell
     }
@@ -130,11 +157,20 @@ extension GitPRViewModel: UICollectionViewDataSource  {
 
 // MARK: UICollectionViewDelegateFlowLayout
 extension GitPRViewModel: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var labelHeight: CGFloat = 0;
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.identifier, for: indexPath as IndexPath) as? CollectionViewCell {
-            labelHeight = cell.cellHeight()
-        }
-        return CGSize(width: UIScreen.main.bounds.width , height: labelHeight)
+    // commenting this as dynamic cell sizes arent supported with prefetchDataSource.
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        var cellHeight: CGFloat = 150;
+//        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GitPRCell.identifier, for: indexPath as IndexPath) as? GitPRCell {
+//            cellHeight = cell.cellHeight()
+//        }
+//        return CGSize(width: UIScreen.main.bounds.width , height: cellHeight)
+//    }
+}
+
+// MARK: UICollectionViewDelegateFlowLayout
+extension GitPRViewModel: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard indexPaths.contains(where: { $0.item == numberOfItems - 1 }) else { return }
+        fetchNextPage()
     }
 }

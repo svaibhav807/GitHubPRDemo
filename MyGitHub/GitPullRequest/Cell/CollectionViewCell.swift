@@ -7,15 +7,13 @@
 
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {
-    static let identifier = "reelCell"
+class GitPRCell: UICollectionViewCell {
+    static let identifier = "GitPRCell"
 
     lazy var titleLabel: UILabel = {
         let l = UILabel()
-        l.text = "sample cell"
         l.font = .systemFont(ofSize: 15)
         l.numberOfLines = 0
-
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
@@ -79,12 +77,7 @@ class CollectionViewCell: UICollectionViewCell {
         self.addSubview(contentStackView)
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        let companyNameTopConstraint = self.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)
-
-        companyNameTopConstraint.priority = .defaultHigh
-
         NSLayoutConstraint.activate([
-            companyNameTopConstraint,
             titleLabel.widthAnchor.constraint(equalToConstant: 200),
             contentStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10),
             contentStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
@@ -97,10 +90,11 @@ class CollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         closedOnLabel.text = "Closed: "
         createdOnLabel.text = "Created: "
+        titleLabel.text = nil
     }
 
     func cellHeight() -> CGFloat {
-        return max(100, titleLabel.textHeight())
+        return max(150, titleLabel.textHeight())
     }
 }
 

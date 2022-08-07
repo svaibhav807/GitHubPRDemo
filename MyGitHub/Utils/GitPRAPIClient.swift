@@ -17,10 +17,15 @@ enum HTTPMethod: String {
 }
 
 class GitPRAPIClient {
+    var pageToFetch = 1
+    var hasNextPage = true
+
     func fetchPRs(state: PRState,completion: @escaping (Result<[GitPRModel], APIError>) -> Void) {
         let completeURL = Constants.APIBaseURL + Constants.Paths.pullRequestPath
         var parameters: [String: String] = [:]
         parameters["state"] = state.rawValue
+        parameters["page"] = String(pageToFetch)
+
         let request = AF.request(completeURL, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default)
 
         request.responseDecodable(of: [GitPRModel].self) { (response) in
