@@ -44,9 +44,10 @@ extension GitPRModel {
             case imageURL = "avatar_url"
         }
     }
+}
 
-    enum PRState: String, Codable {
-        case open
-        case closed
-    }
+enum PRState: String, Codable {
+    case open
+    case closed
+    case any
 }

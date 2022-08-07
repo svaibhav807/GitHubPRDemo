@@ -65,7 +65,7 @@ class ViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let l = GitPRCollectionViewFlowLayout()
         let c = UICollectionView(frame: .zero, collectionViewLayout: l)
-        c.backgroundColor = .tertiarySystemBackground
+        c.backgroundColor = .systemBackground
         c.layer.cornerRadius = 5
         c.translatesAutoresizingMaskIntoConstraints = false
         return c
@@ -96,7 +96,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "GitHub Pull Requests"
-        //        contentView.addSubview(userTitle)
         viewModel.delegate = self
 
         contentView.addSubview(userImageView)
@@ -191,15 +190,8 @@ extension ViewController: GitPRViewModelDelegate {
         if errorView == nil {
             let e = ErrorView()
             e.setErrorMessage(error: error)
-//            e.addRetryAction { [weak self] in
-//                self?.viewModel.loadData()
-//            }
             errorView = e
         }
-//        removeLoading()
-//        hideContent()
-//        let state = ErrorUIState(from: error)
-//        errorView?.render(with: state)
         errorView?.fillIn(container: collectionView)
     }
 
