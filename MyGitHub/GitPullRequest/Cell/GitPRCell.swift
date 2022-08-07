@@ -1,5 +1,5 @@
 //
-//  CollectionViewCell.swift
+//  GitPRCell.swift
 //  MyGitHub
 //
 //  Created by Vaibhav Singh on 06/08/22.
