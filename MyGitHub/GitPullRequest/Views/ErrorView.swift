@@ -62,7 +62,7 @@ class ErrorView: UIView {
     }
 
     private func commonInit() {
-        self.backgroundColor = .systemBackground
+        self.backgroundColor = .clear
         self.addSubview(contentStack)
         contentStack.addArrangedSubview(titleLabel)
         contentStack.addArrangedSubview(messageLabel)

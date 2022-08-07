@@ -66,7 +66,11 @@ extension GitPRViewModel {
                 self?.delegate?.showErrorView(with: .requestFailed)
                 return
             case .success(let items):
-                if(items.isEmpty) { self?.networkClient.hasNextPage = false }
+                if(!items.isEmpty) {
+                    self?.networkClient.hasNextPage = false
+                    self?.delegate?.showErrorView(with: .noData)
+                    return 
+                }
                 self?.networkClient.pageToFetch += 1
 
                 self?.prDetailModel.append(contentsOf: items)

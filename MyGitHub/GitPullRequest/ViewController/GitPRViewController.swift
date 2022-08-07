@@ -219,11 +219,9 @@ extension GitPRViewController {
 
     private func showContent() {
         collectionView.isHidden = false
-        contentView.isHidden = false
     }
 
     private func hideContent() {
         collectionView.isHidden = true
-        contentView.isHidden = true
     }
 }

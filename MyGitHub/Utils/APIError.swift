@@ -10,6 +10,7 @@ import Foundation
 enum APIError: Error {
     case requestFailed
     case invalidData
+    case noData
 }
 
 extension APIError: CustomStringConvertible {
@@ -19,6 +20,8 @@ extension APIError: CustomStringConvertible {
             return "Something went wrong, Please try again"
         case .invalidData:
             return "Something went wrong, Please try again"
+        case .noData:
+            return "You dont have any pull requests."
         }
     }
 }
