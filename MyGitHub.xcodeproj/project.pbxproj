@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		22090097289E5FEC002EC289 /* GitFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22090096289E5FEC002EC289 /* GitFormatters.swift */; };
 		22090099289E7A34002EC289 /* GitUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22090098289E7A34002EC289 /* GitUserModel.swift */; };
-		22746875289E30C7009F5D4F /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22746874289E30C7009F5D4F /* CollectionViewCell.swift */; };
+		22746875289E30C7009F5D4F /* GitPRCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22746874289E30C7009F5D4F /* GitPRCell.swift */; };
 		22746877289E37C1009F5D4F /* GitPRCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22746876289E37C1009F5D4F /* GitPRCellViewModel.swift */; };
 		22B45881289E9A5F0075A980 /* GitPRCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B45880289E9A5F0075A980 /* GitPRCollectionViewFlowLayout.swift */; };
 		22B45883289EA3F90075A980 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B45882289EA3F90075A980 /* APIError.swift */; };
@@ -18,7 +18,7 @@
 		22B4588F289F02070075A980 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4588E289F02070075A980 /* Constants.swift */; };
 		22FF2751289E2714002DA644 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FF2750289E2714002DA644 /* AppDelegate.swift */; };
 		22FF2753289E2714002DA644 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FF2752289E2714002DA644 /* SceneDelegate.swift */; };
-		22FF2755289E2714002DA644 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FF2754289E2714002DA644 /* ViewController.swift */; };
+		22FF2755289E2714002DA644 /* GitPRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FF2754289E2714002DA644 /* GitPRViewController.swift */; };
 		22FF2758289E2714002DA644 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22FF2756289E2714002DA644 /* Main.storyboard */; };
 		22FF275A289E2715002DA644 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22FF2759289E2715002DA644 /* Assets.xcassets */; };
 		22FF275D289E2715002DA644 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22FF275B289E2715002DA644 /* LaunchScreen.storyboard */; };
@@ -32,7 +32,7 @@
 		123A16483264C2D97E4CAC4C /* Pods_MyGitHub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyGitHub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		22090096289E5FEC002EC289 /* GitFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitFormatters.swift; sourceTree = "<group>"; };
 		22090098289E7A34002EC289 /* GitUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitUserModel.swift; sourceTree = "<group>"; };
-		22746874289E30C7009F5D4F /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		22746874289E30C7009F5D4F /* GitPRCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitPRCell.swift; sourceTree = "<group>"; };
 		22746876289E37C1009F5D4F /* GitPRCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitPRCellViewModel.swift; sourceTree = "<group>"; };
 		22B45880289E9A5F0075A980 /* GitPRCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitPRCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		22B45882289EA3F90075A980 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -42,7 +42,7 @@
 		22FF274D289E2714002DA644 /* MyGitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyGitHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22FF2750289E2714002DA644 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22FF2752289E2714002DA644 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		22FF2754289E2714002DA644 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		22FF2754289E2714002DA644 /* GitPRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitPRViewController.swift; sourceTree = "<group>"; };
 		22FF2757289E2714002DA644 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		22FF2759289E2715002DA644 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		22FF275C289E2715002DA644 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -69,13 +69,20 @@
 		22090095289E5FD5002EC289 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				22FF2766289E2886002DA644 /* GitPRAPIClient.swift */,
 				22B4588E289F02070075A980 /* Constants.swift */,
 				22B45882289EA3F90075A980 /* APIError.swift */,
 				22090096289E5FEC002EC289 /* GitFormatters.swift */,
 				22B45884289EA7A50075A980 /* UIView+extensions.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		220A809728A02FB20052952D /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				22FF2766289E2886002DA644 /* GitPRAPIClient.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		22B45888289EFEB80075A980 /* Model */ = {
@@ -90,7 +97,7 @@
 		22B45889289EFEC40075A980 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				22FF2754289E2714002DA644 /* ViewController.swift */,
+				22FF2754289E2714002DA644 /* GitPRViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -106,6 +113,7 @@
 		22B4588B289EFF2D0075A980 /* GitPullRequest */ = {
 			isa = PBXGroup;
 			children = (
+				220A809728A02FB20052952D /* Networking */,
 				22B4588C289F00790075A980 /* Cell */,
 				22B4588A289EFED90075A980 /* Views */,
 				22B45888289EFEB80075A980 /* Model */,
@@ -118,7 +126,7 @@
 		22B4588C289F00790075A980 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				22746874289E30C7009F5D4F /* CollectionViewCell.swift */,
+				22746874289E30C7009F5D4F /* GitPRCell.swift */,
 				22746876289E37C1009F5D4F /* GitPRCellViewModel.swift */,
 			);
 			path = Cell;
@@ -298,7 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22FF2755289E2714002DA644 /* ViewController.swift in Sources */,
+				22FF2755289E2714002DA644 /* GitPRViewController.swift in Sources */,
 				22FF2767289E2886002DA644 /* GitPRAPIClient.swift in Sources */,
 				22FF2751289E2714002DA644 /* AppDelegate.swift in Sources */,
 				22090099289E7A34002EC289 /* GitUserModel.swift in Sources */,
@@ -306,7 +314,7 @@
 				22B4588F289F02070075A980 /* Constants.swift in Sources */,
 				22B45885289EA7A50075A980 /* UIView+extensions.swift in Sources */,
 				22B45883289EA3F90075A980 /* APIError.swift in Sources */,
-				22746875289E30C7009F5D4F /* CollectionViewCell.swift in Sources */,
+				22746875289E30C7009F5D4F /* GitPRCell.swift in Sources */,
 				22FF2769289E28D1002DA644 /* GitPRViewModel.swift in Sources */,
 				22746877289E37C1009F5D4F /* GitPRCellViewModel.swift in Sources */,
 				22FF2765289E2823002DA644 /* GitPRModel.swift in Sources */,
@@ -388,7 +396,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -442,7 +450,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -459,7 +467,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2022080701;
 				DEVELOPMENT_TEAM = L8YL6Y5272;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyGitHub/Info.plist;
@@ -490,7 +498,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2022080701;
 				DEVELOPMENT_TEAM = L8YL6Y5272;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyGitHub/Info.plist;

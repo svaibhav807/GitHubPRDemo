@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import Alamofire
 
 protocol GitPRViewModelDelegate: AnyObject {
     func loadUserData()
@@ -56,6 +55,7 @@ extension GitPRViewModel {
         if showLoadingIndicator {
             delegate?.showLoadingIndicator()
         }
+        delegate?.removeErrorView()
         networkClient.fetchPRs(state: .closed) { [weak self] (result) in
             if showLoadingIndicator {
                 self?.delegate?.removeLoadingIndicator()
@@ -64,10 +64,13 @@ extension GitPRViewModel {
             switch result {
             case.failure(_):
                 self?.delegate?.showErrorView(with: .requestFailed)
-                self?.delegate?.reloadCollectionView()
                 return
             case .success(let items):
-                if(items.isEmpty) { self?.networkClient.hasNextPage = false }
+                if(items.isEmpty) {
+                    self?.networkClient.hasNextPage = false
+                    self?.delegate?.showErrorView(with: .noData)
+                    return 
+                }
                 self?.networkClient.pageToFetch += 1
 
                 self?.prDetailModel.append(contentsOf: items)
@@ -82,7 +85,7 @@ extension GitPRViewModel {
         }
     }
 
-    func fetchNextPage() {
+    private func fetchNextPage() {
         networkClient.fetchPRs(state: .closed) { [weak self] (result) in
             switch result {
             case.failure(_):
@@ -103,15 +106,12 @@ extension GitPRViewModel {
         }
     }
 
-    func fetchUser() {
+    private func fetchUser() {
         networkClient.fetchUser() {  [weak self] (result) in
-            switch result {
-            case .success(let model):
+            if case .success(let model) = result {
                 self?.gitUserModel = model
-                self?.delegate?.loadUserData()
-            case .failure(_):
-                print("Profle API failed.")
             }
+            self?.delegate?.loadUserData()
         }
     }
 
@@ -157,7 +157,8 @@ extension GitPRViewModel: UICollectionViewDataSource  {
 
 // MARK: UICollectionViewDelegateFlowLayout
 extension GitPRViewModel: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    // commenting this as dynamic cell sizes arent supported with prefetchDataSource.
+    /// commenting this as dynamic cell sizes arent supported with prefetchDataSource.
+//
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 //        var cellHeight: CGFloat = 150;
 //        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GitPRCell.identifier, for: indexPath as IndexPath) as? GitPRCell {

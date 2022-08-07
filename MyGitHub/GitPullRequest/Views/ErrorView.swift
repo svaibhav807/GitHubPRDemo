@@ -8,7 +8,7 @@
 import UIKit
 
 class ErrorView: UIView {
-    private lazy var retryButton: UIButton = {
+    lazy var retryButton: UIButton = {
         let b = UIButton()
         b.setTitle("Retry", for: .normal)
         b.backgroundColor = .systemBlue
@@ -62,7 +62,7 @@ class ErrorView: UIView {
     }
 
     private func commonInit() {
-        self.backgroundColor = .systemBackground
+        self.backgroundColor = .clear
         self.addSubview(contentStack)
         contentStack.addArrangedSubview(titleLabel)
         contentStack.addArrangedSubview(messageLabel)
@@ -82,5 +82,4 @@ class ErrorView: UIView {
         titleLabel.text = "Uh oh!"
         messageLabel.text = error.description
     }
-
 }

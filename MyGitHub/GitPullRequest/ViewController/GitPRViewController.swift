@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  GitPRViewController.swift
 //  MyGitHub
 //
 //  Created by Vaibhav Singh on 06/08/22.
@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class ViewController: UIViewController {
+class GitPRViewController: UIViewController {
     private var viewModel: GitPRViewModel
     private var errorView: ErrorView?
 
@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         return l
     }()
 
-    lazy var labelStackView: UIStackView = {
+    private lazy var labelStackView: UIStackView = {
         let s = UIStackView()
         s.axis = .vertical
         s.translatesAutoresizingMaskIntoConstraints = false
@@ -85,7 +85,7 @@ class ViewController: UIViewController {
 
     init() {
         self.viewModel = GitPRViewModel()
-        super.init(nibName: String(describing: ViewController.self), bundle: nil)
+        super.init(nibName: String(describing: GitPRViewController.self), bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -96,16 +96,22 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "GitHub Pull Requests"
-        viewModel.delegate = self
 
+        addContentView()
+        addCollectionView()
+        showLoadingIndicator()
+
+        viewModel.delegate = self
+        viewModel.configure(collectionView: collectionView)
+    }
+
+    private func addContentView() {
         contentView.addSubview(userImageView)
         contentView.addSubview(labelStackView)
         labelStackView.addArrangedSubview(userTitle)
         labelStackView.addArrangedSubview(companyTitle)
         labelStackView.addArrangedSubview(locationLabel)
-
         self.view.addSubview(contentView)
-        addCollectionView()
 
         NSLayoutConstraint.activate([
             labelStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
@@ -118,15 +124,13 @@ class ViewController: UIViewController {
             contentView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             contentView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             contentView.heightAnchor.constraint(equalToConstant: 100),
-            contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
+            contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
         ])
-
-        viewModel.configure(collectionView: collectionView)
     }
+
     private func addCollectionView() {
         //Add some extra bottom spacing
         collectionView.contentInset.bottom = 15
-        //        refreshControl = UIRefreshControl()
         refreshControl.tintColor = .label
         refreshControl.addTarget(self, action: #selector(handlePullToRefresh), for: .valueChanged)
         collectionView.addSubview(refreshControl)
@@ -141,17 +145,12 @@ class ViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 30)
         ])
     }
-
-    @objc
-    func handlePullToRefresh() {
-        viewModel.handlePullToRefresh()
-    }
 }
 
-extension ViewController: GitPRViewModelDelegate {
+// MARK: GitPRViewModelDelegate
+extension GitPRViewController: GitPRViewModelDelegate {
     func loadUserData() {
         if let user = viewModel.gitUserModel  {
-
             let url = URL(string: user.imageURL )
             userImageView.kf.setImage(with: url)
             userImageView.layer.cornerRadius = userImageView.frame.size.width/2
@@ -170,16 +169,14 @@ extension ViewController: GitPRViewModelDelegate {
             } else {
                 self.companyTitle.isHidden = true
             }
-
         } else {
             contentView.isHidden = true
         }
-
     }
 
     func showLoadingIndicator() {
         activityIndicatorView.startAnimating()
-        activityIndicatorView.fillIn(container: collectionView)
+        activityIndicatorView.fillIn(container: self.view)
     }
 
     func removeLoadingIndicator() {
@@ -187,12 +184,14 @@ extension ViewController: GitPRViewModelDelegate {
     }
 
     func showErrorView(with error: APIError) {
+        hideContent()
         if errorView == nil {
             let e = ErrorView()
             e.setErrorMessage(error: error)
+            e.retryButton.addTarget(self, action: #selector(errorViewRetryPressed(_:)), for: .touchUpInside)
             errorView = e
         }
-        errorView?.fillIn(container: collectionView)
+        errorView?.fillIn(container: self.view)
     }
 
     func removeErrorView() {
@@ -202,5 +201,27 @@ extension ViewController: GitPRViewModelDelegate {
     func reloadCollectionView() {
         collectionView.reloadData()
         refreshControl.endRefreshing()
+    }
+}
+
+extension GitPRViewController {
+    @objc
+    func handlePullToRefresh() {
+        viewModel.handlePullToRefresh()
+    }
+
+    @objc
+    func errorViewRetryPressed(_ sender: UIButton) {
+        showContent()
+        errorView?.removeFromSuperview()
+        viewModel.fetchFirstPage()
+    }
+
+    private func showContent() {
+        collectionView.isHidden = false
+    }
+
+    private func hideContent() {
+        collectionView.isHidden = true
     }
 }
