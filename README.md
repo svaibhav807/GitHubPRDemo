@@ -1,5 +1,9 @@
 # GitHubPRDemo
 
+GitHub mobile application clone built in Swift using MVVM. 
+
+
+
 To get it up and running - 
 - clone
 - pod install
@@ -13,8 +17,7 @@ What is done:
 - Error Handling
 - Pull to refresh
 
-What isnt in this PR yet:
- - Unit Tests (Est: 3 Hours)
+To Do:
  - Selection for Open/Closed/Any Pull requests. (Need to add a header with pills for this) (Est: 2 Hours)
  - Selection of a cell to open a Detail Page for PR. (Est: 2 Hours)
 
